@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>星痕共鳴小助手</title>
+<style>
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Heiti TC","Microsoft JhengHei",Arial;padding:20px;background:#1e1e2f;color:#fff;}
+#localTime{font-size:14px;text-align:center;margin-bottom:10px;color:#fff;}
+h1{margin-bottom:6px;font-size:18px;color:#fff;}
+.container{display:flex;gap:20px;max-width:1200px;margin:auto;flex-wrap:wrap;align-items:flex-start;}
+.card{background:#2c2c3e;padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.5);flex:1;min-width:300px;display:flex;flex-direction:column;justify-content:flex-start;position:relative;height:750px;}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{padding:8px;border-bottom:1px solid #555;text-align:left;color:#fff}
+input[type=number]{width:100%;box-sizing:border-box;padding:6px;border-radius:6px;border:none;background:#3a3a4d;color:#fff}
+.btn{background:#2563eb;color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;transition: all 0.2s}
+.btn:hover{background:#1d4ed8}
+.btn:active{transform:translateY(1px)}
+.result{margin-top:14px;padding:12px;border-radius:8px;background:#3a3a4d;color:#fff;font-size:14px;width:100%;box-sizing:border-box;}
+.result table{width:100%;border-collapse:collapse;}
+.result th,.result td{border:1px solid #555;padding:6px;text-align:center;}
+.result th{background:#44446b;}
+.small{font-size:12px;color:#ccc}
+.warning{color:#ffa500;background:#4b2e0f;padding:8px;border-radius:6px}
+#dailyTasks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;}
+.taskBtn{padding:12px 8px;font-size:14px;border:none;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer;text-align:center;transition: all 0.2s}
+.taskBtn:hover{background:#1d4ed8}
+.noticeText{font-size:14px;color:#ccc;line-height:1.6;margin-top:auto;}
+</style>
+</head>
+<body>
+
+<div id="localTime">00:00:00 星期一</div>
+
+<div class="container">
+
+  <!-- 每日任務卡片 -->
+
+  <div class="card">
+    <h1>每日任務</h1>
+    <p class="small">點擊按鈕即可將任務"消失"。</p>
+
+    <div id="dailyTasks">
+      <button class="taskBtn">討伐菁英</button>
+      <button class="taskBtn">討伐首領</button>
+      <button class="taskBtn">不穩定空間</button>
+      <button class="taskBtn">協會打卡</button>
+      <button class="taskBtn">協會運貨</button>
+      <button class="taskBtn">家園委託</button>
+      <button class="taskBtn">生活職業</button>
+      <button class="taskBtn">神秘商店</button>
+      <button class="taskBtn">主題活動</button>
+      <button class="taskBtn">每日活躍度</button>
+      <button class="taskBtn">協會戰舞</button>
+      <button class="taskBtn">協會狩獵</button>
+    </div>
+
+    <hr style="border:1px solid #555;margin:12px 0">
+
+    <h1 style="font-size:16px;margin-bottom:6px">每週任務</h1>
+    <p class="small">點擊按鈕即可將任務"消失"</p>
+
+    <div id="weeklyTasks" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+      <button class="taskBtn weekly">討伐領主</button>
+      <button class="taskBtn weekly">司第門遺跡</button>
+      <button class="taskBtn weekly">神龍枷所</button>
+    </div>
+
+    <div class="noticeText">
+      注意事項: <br>
+      ✱ 菁英寶箱開啟鑰匙每日獲得兩把，上限六把<br>
+      ✱ 首領寶箱開啟鑰匙每日獲得兩把，上限六把<br>
+      ✱ 討伐領主開啟時間為每日16:00~22:00<br>
+      ✱ 協會戰舞開啟時間為每周五19:30~19:55<br>
+      ✱ 司第門遺跡每兩周刷新<br>
+    </div>
+  </div>
+
+  <!-- 協會運貨卡片 -->
+
+  <div class="card">
+    <h1>協會運貨計算</h1>
+    <p class="small">輸入每個商品的重量與價格；每個商品皆為 <strong>無限量</strong>。將自動計算最低成本組合。</p>
+    <label>目標重量：
+      <input type="number" id="target" value="20000" min="1">
+    </label>
+    <table>
+      <thead>
+        <tr><th>商品</th><th>重量</th><th>價格</th></tr>
+      </thead>
+      <tbody id="items">
+        <tr><td>商品 1</td><td><input type="number" class="weight" value="120"></td><td><input type="number" class="price"></td></tr>
+        <tr><td>商品 2</td><td><input type="number" class="weight"></td><td><input type="number" class="price"></td></tr>
+        <tr><td>商品 3</td><td><input type="number" class="weight"></td><td><input type="number" class="price"></td></tr>
+        <tr><td>商品 4</td><td><input type="number" class="weight"></td><td><input type="number" class="price"></td></tr>
+        <tr><td>商品 5</td><td><input type="number" class="weight"></td><td><input type="number" class="price"></td></tr>
+        <tr><td>商品 6</td><td><input type="number" class="weight"></td><td><input type="number" class="price"></td></tr>
+        <tr><td>商品 7</td><td><input type="number" class="weight"></td><td><input type="number" class="price"></td></tr>
+        <tr><td>商品 8</td><td><input type="number" class="weight"></td><td><input type="number" class="price"></td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:10px;display:flex;gap:10px">
+      <button class="btn" id="compute">計算</button>
+      <button class="btn" id="clear" style="background:#ef4444">清除</button>
+    </div>
+    <div id="note" class="small" style="margin-top:10px"></div>
+    <div id="output" class="result" style="display:none"></div>
+  </div>
+
+</div>
+
+<script>
+// 顯示本地時間
+function updateLocalTime(){
+  const now = new Date();
+  const days = ['日','一','二','三','四','五','六'];
+  const timeStr = now.getHours().toString().padStart(2,'0')+':' +
+                  now.getMinutes().toString().padStart(2,'0')+':' +
+                  now.getSeconds().toString().padStart(2,'0') +
+                  ' 星期'+days[now.getDay()];
+  document.getElementById('localTime').textContent = '本地時間：'+timeStr;
+}
+updateLocalTime();
+setInterval(updateLocalTime,1000);
+
+// 每日任務按鈕消失
+document.querySelectorAll('.taskBtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{ btn.style.display='none'; });
+});
+
+// ★ 週期任務顯示設定
+(function(){
+  const now = new Date();
+  const day = now.getDay();
+
+  document.querySelectorAll('.taskBtn').forEach(btn=>{
+    const text = btn.textContent;
+
+    if (text.includes("協會戰舞")) {
+      if (day === 5) btn.style.display = 'block';
+      else btn.style.display = 'none';
+    }
+
+    if (text.includes("協會狩獵")) {
+      if (day === 5 || day === 6 || day === 0) btn.style.display = 'block';
+      else btn.style.display = 'none';
+    }
+  });
+})();
+
+// 協會運貨計算功能
+(function(){
+  const targetInput = document.getElementById('target');
+  const computeBtn = document.getElementById('compute');
+  const clearBtn = document.getElementById('clear');
+  const noteDiv = document.getElementById('note');
+  const outputDiv = document.getElementById('output');
+
+  function parseItems(){
+    const weights = Array.from(document.querySelectorAll('.weight')).map(x=>x.value.trim());
+    const prices = Array.from(document.querySelectorAll('.price')).map(x=>x.value.trim());
+    const items = [];
+    for(let i=0;i<8;i++){
+      const weight=weights[i]===''?NaN:Number(weights[i]);
+      const price=prices[i]===''?NaN:Number(prices[i]);
+      if(Number.isFinite(weight)&&Number.isFinite(price)&&weight>0) items.push({index:i+1,weight,price});
+    }
+    return items;
+  }
+
+  function showNote(msg){ noteDiv.innerHTML=msg }
+
+  clearBtn.addEventListener('click',()=>{
+    document.querySelectorAll('input').forEach(el=>{ if(el.id!=='target') el.value=''; });
+    outputDiv.style.display='none';
+    showNote('已清除。');
+  });
+
+  computeBtn.addEventListener('click',()=>{
+    const targetVal=Number(targetInput.value);
+    if(!Number.isFinite(targetVal)||targetVal<=0){
+      showNote('<span class="warning">請輸入正整數的目標重量。</span>');
+      return;
+    }
+    const target=Math.max(1,Math.round(targetVal));
+    const items=parseItems();
+    if(items.length===0){
+      showNote('<span class="warning">請輸入至少一個商品。</span>');
+      return;
+    }
+
+    const INF=1e18;
+    const maxWeight = items.reduce((a,b)=>Math.max(a,b.weight),0);
+    const dp = Array(target+maxWeight+1).fill(INF); dp[0]=0;
+
+    for(const it of items){
+      for(let w=it.weight; w<dp.length; w++){
+        dp[w]=Math.min(dp[w], dp[w-it.weight]+it.price);
+      }
+    }
+
+    let bestW=-1,bestCost=INF;
+    for(let w=target; w<dp.length; w++){
+      if(dp[w]<bestCost){ bestCost=dp[w]; bestW=w; }
+    }
+    outputDiv.style.display='block';
+    if(bestW===-1){
+      outputDiv.innerHTML='<div class="warning">無法達成目標重量。</div>';
+      return;
+    }
+
+    const counts=Array(items.length).fill(0);
+    let w=bestW;
+    while(w>0){
+      let found=false;
+      for(let i=0;i<items.length;i++){
+        const it=items[i];
+        if(w-it.weight>=0 && Math.abs(dp[w]-(dp[w-it.weight]+it.price))<1e-6){
+          counts[i]++; w-=it.weight; found=true; break;
+        }
+      }
+      if(!found) break;
+    }
+
+    const resultCounts=Array(8).fill(0);
+    items.forEach((it,ii)=>{ resultCounts[it.index-1]=counts[ii]; });
+
+    let html='<table><thead><tr><th>商品</th><th>數量</th><th>重量</th><th>價格</th></tr></thead><tbody>';
+    let totalW=0,totalC=0;
+    for(let i=0;i<8;i++){
+      const cnt=resultCounts[i];
+      if(cnt>0){
+        const weight=Number(document.querySelectorAll('.weight')[i].value);
+        const price=Number(document.querySelectorAll('.price')[i].value);
+        totalW+=weight*cnt; totalC+=price*cnt;
+        html+=`<tr><td>商品 ${i+1}</td><td>${cnt}</td><td>${weight*cnt}</td><td>${price*cnt}</td></tr>`;
+      }
+    }
+    html+='</tbody></table>';
+    html+=`<p class="small">總重量： <strong>${totalW}</strong>；總價格： <strong>${totalC}</strong></p>`;
+    outputDiv.innerHTML=html;
+  });
+})();
+</script>
+
+<!-- ★★★★★ 底部新增內容 ★★★★★ -->
+
+<p style="text-align:center; margin-top:20px;">
+  生活職業試算表：
+  <a href="https://docs.google.com/spreadsheets/d/1JvX0hC68ha62Ojr-tHxOEDfzgDy6j3OWK-kIsimOXZI/edit?gid=0#gid=0"
+     target="_blank"
+     style="color:#4ea1ff;">
+     點此開啟
+  </a>
+</p>
+
+<p style="text-align:center; margin-top:10px; color:#ffff00; font-weight:bold;">
+僅 <strong>工作表2黃色區域</strong> 可編輯
+</p>
+
+</body>
+</html>
